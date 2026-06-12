@@ -13,13 +13,14 @@ def main():
 
         if choice == "1":
             while True:
-                folder_path = input("Enter the source folder path you want to scan (main for main menu): ").strip()
+                folder_path = input("Enter the source folder path you want to scan (main for main menu): ").strip().lower()
                 if folder_path == "main":
                     break
                 elif utils.is_path_valid(folder_path):
                     success, scan_results = scanner.scan(folder_path)
                     if success:
                         print(messages.SUCCESS_MESSAGE)
+                        print(scan_results)
                     else:
                         print(messages.ERROR_MESSAGE)
                     break
