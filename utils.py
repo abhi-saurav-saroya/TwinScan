@@ -13,5 +13,6 @@ def display_last_scan_results(last_scan_results: dict) -> None:
         print("All Files:")
         for file_path in last_scan_results['all_files']:
             print(f"\t{file_path}")
+        print(f"Unique Hashes: {len(last_scan_results['hash_map'])}")
     else:
         print("Nothing to display")

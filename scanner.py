@@ -1,4 +1,5 @@
 import os
+import hasher
 
 def scan(folder_path: str) -> tuple[bool, dict]:
     try:
@@ -14,6 +15,18 @@ def scan(folder_path: str) -> tuple[bool, dict]:
             "total_files": len(all_files),
             "all_files": all_files
         }
+
+        hash_map = {}
+
+        for file_path in all_files:
+            file_hash = hasher.calculate_hash(file_path)
+
+            if file_hash not in hash_map:
+                hash_map[file_hash] = []
+
+            hash_map[file_hash].append(file_path)
+
+        scan_results["hash_map"] = hash_map
 
         return True, scan_results
 
