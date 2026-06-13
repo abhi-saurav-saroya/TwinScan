@@ -5,6 +5,8 @@ import utils
 
 def main():
     print(messages.WELCOME_MESSAGE)
+        
+    last_scan_results ={}
 
     while True:
         print(messages.MAIN_MENU)
@@ -13,14 +15,14 @@ def main():
 
         if choice == "1":
             while True:
-                folder_path = input("Enter the source folder path you want to scan (main for main menu): ").strip().lower()
-                if folder_path == "main":
+                folder_path = input("Enter the source folder path you want to scan (main for main menu): ").strip()
+                if folder_path.lower() == "main":
                     break
                 elif utils.is_path_valid(folder_path):
                     success, scan_results = scanner.scan(folder_path)
                     if success:
+                        last_scan_results = scan_results
                         print(messages.SUCCESS_MESSAGE)
-                        print(scan_results)
                     else:
                         print(messages.ERROR_MESSAGE)
                     break
@@ -28,7 +30,7 @@ def main():
                     print("Invalid path entered.")
 
         elif choice == "2":
-            pass
+            utils.display_last_scan_results(last_scan_results)
 
         elif choice == "3":
             print(messages.ABOUT_TWINSCAN)
