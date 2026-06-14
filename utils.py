@@ -34,3 +34,6 @@ def display_last_scan_results(last_scan_results: dict) -> None:
 
         for file_path in duplicate_group:
             print(f"  -> {file_path}")
+
+    print("\n" + "=" * 50)
+    print(f"Potential Space Wasted: {last_scan_results['space_wasted']} bytes")
