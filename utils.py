@@ -19,6 +19,7 @@ def display_last_scan_results(last_scan_results: dict) -> None:
     print(f"Total Files   : {last_scan_results['total_files']}")
     print(f"Unique Hashes : {len(last_scan_results['hash_map'])}")
     print(f"Duplicate Groups Found : {len(last_scan_results['duplicates'])}")
+    print(f"Dupliacte Files Found: {sum(len(group) for group in last_scan_results['duplicates'])}")
 
     print("\n" + "=" * 50)
     print("           DUPLICATE FILE GROUPS")
