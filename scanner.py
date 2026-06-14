@@ -2,6 +2,27 @@ import os
 import hasher
 
 def scan(folder_path: str) -> tuple[bool, dict]:
+    scan_results = {
+        "directory": folder_path
+    }
+
+    scan_results["all_files"] = get_all_files(folder_path)
+
+    if scan_results["all_files"] is None:
+        return False, scan_results
+    
+    scan_results["total_files"] = len(scan_results["all_files"])
+    
+    scan_results["hash_map"] = build_hash_map(scan_results["all_files"])
+
+    if scan_results["hash_map"] is None:
+        return False, scan_results
+    
+    return True, scan_results
+
+
+
+def get_all_files(folder_path: str) -> list | None :
     try:
         all_files = []
 
@@ -10,12 +31,15 @@ def scan(folder_path: str) -> tuple[bool, dict]:
                 full_path = os.path.join(root, file)
                 all_files.append(full_path)
 
-        scan_results = {
-            "directory": folder_path,
-            "total_files": len(all_files),
-            "all_files": all_files
-        }
+        return all_files
 
+    except Exception:
+        return None
+
+
+
+def build_hash_map(all_files: str) -> dict | None:
+    try:
         hash_map = {}
 
         for file_path in all_files:
@@ -26,9 +50,12 @@ def scan(folder_path: str) -> tuple[bool, dict]:
 
             hash_map[file_hash].append(file_path)
 
-        scan_results["hash_map"] = hash_map
-
-        return True, scan_results
-
+        return hash_map
+    
     except Exception:
-        return False, {}
+        return None
+
+
+
+def find_duplicates(hash_map):
+    ...
