@@ -1,7 +1,10 @@
 import os
 import hasher
+import time
 
 def scan(folder_path: str) -> tuple[bool, dict]:
+    start_time = time.time()
+
     scan_results = {
         "directory": folder_path
     }
@@ -21,6 +24,8 @@ def scan(folder_path: str) -> tuple[bool, dict]:
     scan_results["duplicates"] = find_duplicates(scan_results["hash_map"])
 
     scan_results["space_wasted"] = calculate_space_wasted(scan_results["duplicates"])
+
+    scan_results["scan_time"] = time.time() - start_time
     
     return True, scan_results
 
