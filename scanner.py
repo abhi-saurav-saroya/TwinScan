@@ -42,20 +42,36 @@ def get_all_files(folder_path: str) -> list | None :
 
 
 
-def build_hash_map(all_files: list) -> dict | None:
+def build_hash_map(all_files: list[str]) -> dict | None:
     try:
-        hash_map = {}
+        size_map = {}
 
         for file_path in all_files:
-            file_hash = hasher.calculate_hash(file_path)
+            file_size = os.path.getsize(file_path)
 
-            if file_hash not in hash_map:
-                hash_map[file_hash] = []
+            if file_size not in size_map:
+                size_map[file_size] = []
 
-            hash_map[file_hash].append(file_path)
+            size_map[file_size].append(file_path)
+
+        hash_map = {}
+
+        for files in size_map.values():
+
+            # Files with unique sizes cannot be duplicates
+            if len(files) < 2:
+                continue
+
+            for file_path in files:
+                file_hash = hasher.calculate_hash(file_path)
+
+                if file_hash not in hash_map:
+                    hash_map[file_hash] = []
+
+                hash_map[file_hash].append(file_path)
 
         return hash_map
-    
+
     except Exception:
         return None
 
