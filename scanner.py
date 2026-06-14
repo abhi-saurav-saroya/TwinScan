@@ -18,6 +18,8 @@ def scan(folder_path: str) -> tuple[bool, dict]:
     if scan_results["hash_map"] is None:
         return False, scan_results
     
+    scan_results["duplicates"] = find_duplicates(scan_results["hash_map"])
+    
     return True, scan_results
 
 
@@ -38,7 +40,7 @@ def get_all_files(folder_path: str) -> list | None :
 
 
 
-def build_hash_map(all_files: str) -> dict | None:
+def build_hash_map(all_files: list) -> dict | None:
     try:
         hash_map = {}
 
@@ -57,5 +59,11 @@ def build_hash_map(all_files: str) -> dict | None:
 
 
 
-def find_duplicates(hash_map):
-    ...
+def find_duplicates(hash_map: dict) -> list:
+    duplicates = []
+
+    for files in hash_map.values():
+        if len(files) > 1:
+            duplicates.append(files)
+
+    return duplicates
