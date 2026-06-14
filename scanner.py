@@ -19,6 +19,8 @@ def scan(folder_path: str) -> tuple[bool, dict]:
         return False, scan_results
     
     scan_results["duplicates"] = find_duplicates(scan_results["hash_map"])
+
+    scan_results["space_wasted"] = calculate_space_wasted(scan_results["duplicates"])
     
     return True, scan_results
 
@@ -67,3 +69,14 @@ def find_duplicates(hash_map: dict) -> list:
             duplicates.append(files)
 
     return duplicates
+
+
+
+def calculate_space_wasted(duplicates: list) -> int:
+    space_wasted = 0
+
+    for files in duplicates:
+        group_size = os.path.getsize(files[0])
+        space_wasted += group_size * (len(files) - 1)
+
+    return space_wasted
